@@ -1,0 +1,31 @@
+{% extends "product/base.html" %}
+
+{% block content %} 
+
+{% load crispy_forms_tags %}  
+
+<style type="text/css">
+	.margin_top{
+		margin-left: 20%;
+		margin-top: 5%;
+	}
+</style>       
+
+<!--Register--> 
+<div class="container py-5 margin_top">
+	<h1>Register</h1>
+	<form method="POST">
+		{% csrf_token %}
+		{{ register_form|crispy }}                    
+		<table>
+			<tr>
+				<td>
+					<button class="btn btn-success btn-outline-light" type="submit">Register</button>
+	</form>
+	<p class="text-center">If you already have an account, <a href="/login/">login</a> instead.</p>
+				</td>
+			</tr>
+		</table>
+</div>
+
+{% endblock %}

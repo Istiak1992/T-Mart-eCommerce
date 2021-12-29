@@ -1,0 +1,61 @@
+{% load static %}
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-warning">
+  <div class="container-fluid">
+    <img src="/media/photos/logo_mart.png" height="90px; width:90px;" style="float: left;">
+    <a class="navbar-brand" href="{% url 'homePage' %}" style="color: white; font-size: 23px; text-shadow: 2px 2px 4px #000000;"><b>T-MART</b></a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll" >
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'homePage' %}" style="color:white">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'supportPage' %}" style="color:white">Support</a>
+        </li>
+        
+      </ul>
+      <ul class="navbar-nav mr-auto">
+        {% if user.is_authenticated %}
+
+      
+       
+        <li class="nav-item">
+          <a class="nav-link" href="#" style="color:white">Welcome <b> {{user.username}} </b> </a>
+        </li>
+
+         <li class="nav-item">
+          <a class="nav-link" href="/logout/" style="color:white">Logout</a>
+        </li>
+
+        {% else %}
+
+        <li class="nav-item">
+          <a class="nav-link" href="/register/" style="color:white">Signup</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/login/" style="color:white">Login</a>
+        </li>
+
+        {% endif %}
+      </ul>
+       <div style="margin-right: 30px;">
+       <a href="{% url 'viewCart' %}"><img src="/media/photos/cart.png" style="width: 40px; height: 40px; margin-right: 15%;"></a>
+    </div>
+      <form class="d-flex" action="{% url 'search' %}" method="POST" >
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" placeholder="Search" name="name" aria-label="Search">
+        <button class="btn btn-outline-light" type="submit">Search</button>
+      </form>
+
+    </div>
+  </div>
+</nav>
+
+
+
+    

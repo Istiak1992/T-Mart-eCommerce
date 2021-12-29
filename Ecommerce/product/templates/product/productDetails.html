@@ -1,0 +1,322 @@
+{% extends 'product/base.html' %}
+
+
+
+{% block content %}
+<!--CSS for thumbnail-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style type="text/css">
+.check{
+	color: orange;
+
+}
+.checkede {
+  color: orange;
+}
+
+.rating {
+    float:left;
+}
+
+/* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
+   follow these rules. Every browser that supports :checked also supports :not(), so
+   it doesn’t make the test unnecessarily selective */
+.rating:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+    clip:rect(0,0,0,0);
+}
+
+.rating:not(:checked) > label {
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:200%;
+    line-height:1.2;
+    color:#ddd;
+    text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:before {
+    content: '★ ';
+}
+
+.rating > input:checked ~ label {
+    color: #f70;
+    text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+    color: gold;
+    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+
+}
+
+.rating > label:active {
+    position:relative;
+    top:2px;
+    left:2px;
+}
+	#featured{
+			max-width: 100%;
+			max-height: 100%;
+			object-fit: cover;
+			cursor: pointer;
+			border: 2px solid black;
+
+		}
+
+	.thumbnail{
+		object-fit: cover;
+		height:95px; 
+		width:85px; 
+		border-style: ridge; 
+		border-width: 2px; 
+		border-color: #26A65B; 
+		cursor: pointer;
+		opacity: 0.5;
+		margin-top: 5px;
+	}
+
+	.thumbnail:hover{
+		opacity: 1;
+	}
+	.active{
+		opacity: 1;
+	}
+
+	.btn_generic_style{
+			
+  			 padding: 5px;
+ 			 border-radius: 10px;
+		}
+
+	.detail_prod{
+		margin-top: 25%;
+	}
+
+	.height_cutomize{
+		height: 150px;
+		background-color: white;
+	}
+
+	.checked {
+  		color: orange;
+	}
+
+
+</style>
+
+
+
+
+<div class="content">
+
+	<div class="row height_cutomize">
+		<div class="col"></div>
+	</div>
+	
+	<div class="row">
+	    <div class="col">
+	      {% for item in img %}				
+			{% if item.feature %}
+				<img  id="featured" class="img-responsive" src="{{item.imageURL}}" width="100%" style="margin:2px;">
+			{% endif %}
+		  {% endfor %}
+		  <div class="row">
+		  	{% for item in img %}				
+				{% if item.thumbnail %}
+					<div class="col">
+						<div class="slider">
+							{% if forloop.first %}
+							<img class="img-responsive thumbnails active"  src="{{item.imageURL}}" width="80px" height="90px">
+							{% else %}
+							<img class="img-responsive thumbnails"  src="{{item.imageURL}}" width="80px" height="90px">
+							{% endif %}
+						</div>
+		  			</div>
+				{% endif %}
+		    {% endfor %}
+		  	
+		  </div>
+	    </div>
+	    <div class="col">
+	      <h3 style="text-align: center;">{{product.name}}</h3>
+	      
+	      
+	      <div style="float: left;">
+									
+									
+				<span class="fa fa-star {% if avg_rate >= 1 %} check {% endif %}"></span>
+				<span class="fa fa-star {% if avg_rate >= 2 %} check {% endif %}"></span>
+				<span class="fa fa-star {% if avg_rate >= 3 %} check {% endif %}"></span>
+				<span class="fa fa-star {% if avg_rate >= 4 %} check {% endif %}"></span>
+				<span class="fa fa-star {% if avg_rate >= 5 %} check {% endif %}"></span>
+			</div> 
+
+			<p>(<b>{{avg_rate}} / 5 </b>) <b>Discount: {{product.discount}}%</b>, <b> Price after discount: </b>  <b>{{product.discount_price}} {{product.currency}}</b> , <b>Price: {{product.price}} {{product.currency}}</b> ,  <b>Size:</b> <b>{{product.size}}</b>, <b>Color:</b> <b>{{product.color}}</b> </p>
+
+		  
+		  {% if product.size %}
+		  	
+		  {% endif %}
+		  <p style="text-align: justify;">{{product.description}}</p>
+	    </div>
+	    
+	    
+	 
+	    <div class="col">
+
+	      
+	      	<form class="pull-right" method="POST" action="{% url 'add-to-cart' product.id %}">
+			{% csrf_token %}
+		      	
+		      	<input class="btn btn-warning btn-outline-light"  style="margin-right: 25%; margin-top: 25%; width: 400px;" type="submit" value="add to cart">
+	       </form>
+
+
+	      <!--</div> 
+	      <div style="width: 80%; height: 60%; background-color: grey; color: white; margin-top: 15px; margin-right: 5px;">
+	      	<h4 style="text-align: center; margin-top: 30px;">Add position</h4>
+	      </div>-->
+	      
+	    
+	</div>
+
+	<div class="row">
+		<div class="col">
+			
+		</div>
+		
+		<div class="col">
+
+			<form class="review-form" method="GET" action="{% url 'review' %}">
+				<input type="hidden" name="prod_id" id="prod_id" value="{{product.id}}">
+				<h2>Product Review</h2>
+				<!--<input type="radio" id="star-1" name="rating" value="1"> <label for="star-1" class="fas fa-star"></label>
+				<input type="radio" id="star-2" name="rating" value="2"> <label for="star-2" class="fas fa-star"></label>
+				<input type="radio" id="star-3" name="rating" value="3"> <label for="star-3" class="fas fa-star"></label>
+				<input type="radio" id="star-4" name="rating" value="4"> <label for="star-4" class="fas fa-star"></label>
+				<input type="radio" id="star-5" name="rating" value="5"> <label for="star-5" class="fas fa-star"></label>-->
+
+					<table>
+						<tr>
+							<td>
+								<fieldset class="rating">
+								    
+								    <input type="radio"  id="star1" name="rating" value="5" /><label for="star1">1 star</label>
+								    <input type="radio"  id="star2" name="rating" value="4" /><label for="star2">2 stars</label>
+								    <input type="radio"  id="star3" name="rating" value="3" /><label for="star3">3 stars</label>
+								    <input type="radio"  id="star4" name="rating" value="2" /><label for="star4">4 stars</label>
+								    <input type="radio"  id="star5" name="rating" value="1" /><label for="star5">5 stars</label>
+								</fieldset>
+
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="form-group" style="float: left; width: 100%;">
+									<textarea class="input" name="comment" placeholder="your review" style="float: left; width:100%; height: 150px;">
+										
+									</textarea>
+								</div>
+							
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="submit" name="post" value="post" class="btn btn-warning">
+							</td>
+						</tr>
+						<tr>
+							
+							<td>
+								<br>
+
+								{% for rev in review %} 
+								<b>{{rev.user}}  </b> |
+								{{rev.created_at}} <br>
+
+								<div style="float: left;">
+									
+									
+									<span class="fa fa-star {% if rev.rate >= 1 %} checkede {% endif %}"></span>
+									<span class="fa fa-star {% if rev.rate >= 2 %} checkede {% endif %}"></span>
+									<span class="fa fa-star {% if rev.rate >= 3 %} checkede {% endif %}"></span>
+									<span class="fa fa-star {% if rev.rate >= 4 %} checkede {% endif %}"></span>
+									<span class="fa fa-star {% if rev.rate >= 5 %} checkede {% endif %}"></span>
+								</div>
+								<br>
+
+
+								<p style="text-align: justify; ">{{rev.comment}} </p> <br>
+								
+								
+								{% endfor %}
+								
+							</td>
+							
+
+							
+						</tr>
+					</table>
+						
+					
+
+				
+			</form>
+		</div>
+		<div class="col">
+			
+		</div>
+		
+	</div>
+
+</div>
+
+<!--JS for thumbnail-->
+<script type="text/javascript">
+			let thumbnails = document.getElementsByClassName('thumbnails')
+			let activeImages = document.getElementsByClassName('active')
+			for (var i=0; i < thumbnails.length; i++){
+				thumbnails[i].addEventListener('mouseover', function(){
+					console.log(activeImages)
+
+					if (activeImages.length > 0){
+						activeImages[0].classList.remove('active')
+					}
+				
+					this.classList.add('active')
+					document.getElementById('featured').src = this.src
+				})
+
+
+			}
+
+			const buttonRight = document.getElementById('slideRight');
+			const buttonLeft = document.getElementById('slideLeft');
+
+
+			buttonRight.addEventListener('click', function(){
+				document.getElementById('slider').scrollLeft += 180;
+		    })
+
+
+
+		    buttonLeft.addEventListener('click', function(){
+		      document.getElementById('slider').scrollLeft -= 180;
+		    })
+
+		
+
+	</script>
+
+{% endblock %}
+
+

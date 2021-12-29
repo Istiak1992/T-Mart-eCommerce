@@ -1,0 +1,24 @@
+{% extends 'product/base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+<style type="text/css">
+	.width_customize{
+		margin-top: 130px;
+
+		height: 600px;
+
+	}
+</style>
+  <div class="width_customize">
+  	  <h4 style="text-align: center; color: #FFC107;">Congratulations! Your order is placed successfully.</h4>
+	  <p style="text-align: center;">We only accept cash on delevery.</p>
+
+	  <a href="{% url 'homePage' %}" style="width: 40%; margin-left: 30%; text-align: center;" class="btn btn-warning btn-outline-light"> Continue Shopping </a>
+  </div>
+
+{% endblock %}
+

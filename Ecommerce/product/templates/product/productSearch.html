@@ -1,0 +1,57 @@
+ 
+{% extends "product/base.html" %}
+
+{% block content %}      
+
+
+<div class="content" style="margin-top: 100px; float: left;">
+	{% for x in results %}
+	{% for item in prodImg %}
+
+
+	{% if  x.name == item.product.name %}
+	 
+
+	{% if item.feature %}
+	<div class="card" style="width: 16rem; margin:12px; float: left; margin-top: 7.9%;">
+	 
+	
+	  <img src="{{item.image.url}}" alt="Product Image" style="width:100%; height: 240px; float: left;">
+	  
+	  <hr>
+	  <div class="card-body">
+	    <h5 class="card-title">{{item.product.name}}</h5>
+	    {% if item.product.discount > 0 %}
+							<h6 class="card-subtitle mb-2 text-muted"><p> Price: {{ item.product.discount_price }} {{item.product.currency}}</p>  </h6>
+
+							<h6 class="card-subtitle mb-2 text-muted"> <p style="text-decoration: line-through; text-decoration-color:red;">Price: {{item.product.price}} {{item.product.currency}}</p>  </h6>
+							<span class="label label-primary">Discount: {{item.product.discount}}%</span>
+							{% else %}
+							<h6 class="card-subtitle mb-2 text-muted"><p>Price: {{item.product.price}} {{item.product.currency}}</p>  </h6>
+							<span class="label label-primary">Discount: {{item.product.discount}}%</span>
+							{% endif %}
+							
+					
+						    <p class="card-text"> Stock: {{item.product.is_available}}</p>
+						    <a href="{% url 'productDetails' item.product.id %}" class="btn btn-warning btn-outline-light btn_generic_style">Details</a>
+							<a href="{% url 'add-to-cart' item.product.id %}" class="btn btn-warning btn-outline-light btn_generic_style">Add to Cart</a>
+
+
+	  </div>
+	  
+
+	  {% endif %}
+
+
+	</div>
+
+
+
+	 {% endif %}
+
+
+	{% endfor %}
+	{% endfor %}
+</div>
+
+{% endblock %}

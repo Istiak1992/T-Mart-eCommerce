@@ -1,0 +1,86 @@
+{% extends 'product/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style type="text/css">
+	.container_shoppingcart{
+		width: 100%;
+		float: left;
+		margin-top: 130px;
+	}
+
+	.container_cart{
+		width: 60%;
+		float: left;
+		text-align: center;
+		padding: 20px;
+	}
+
+	.container_checkout{
+		width: 30%;
+		float: left;
+		text-align: center;
+		padding: 20px;
+	}
+
+	.add_position{
+		width: 100%;
+		float: left;
+		background-color: white;
+		color: white;
+		height: 20%;
+	}
+</style>
+{{message_cart}}
+<div class="container_shoppingcart">
+	<div class="container_cart">
+		<h3> Your Shopping Cart </h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>SN</th>
+					<th>Product</th>
+					<th>Unit Price</th>
+					<th>Quantity</th>
+					<th>Discount</th>
+					<th>Subtotal</th>
+					<th>Action</th>
+				</tr>
+				
+			</thead>
+			<tbody>
+				{% for item in cart_obj.cartproduct_set.all %}
+				<tr>
+					<td>{{forloop.counter}}</td>
+					<td>{{item.product.name}}</td>
+					<td>{{item.product.price}}</td>
+					<td>{{item.quantity}}</td>
+					<td>{{item.product.discount}}%</td>
+					<td>{{item.subtotal}}</td>
+					<td>
+						<a href="{% url 'managecart' item.id %}?action=inc" class="btn btn-primary"><b>+</b></a>
+						<a href="{% url 'managecart' item.id %}?action=dec" class="btn btn-warning"><b>-</b></a>
+						<a href="{% url 'managecart' item.id %}?action=rmv" class="btn btn-danger"><b>x</b></a>
+					</td>
+				</tr>
+				{% endfor %}
+				<th colspan="5" class="text-right">Total </th>
+				<th>{{cart_obj.total}} <b>BDT</b><th>
+			</tbody>
+
+		</table>
+
+		<p style="text-align:center">Delivery Charge (<b>60 BDT</b> for inside of Dhaka city, or <b>120 BDT</b> for outside of Dhaka city) will be added with the total amount. </p>
+		
+	</div>
+	<div class="container_checkout">
+		
+		<a href="{% url 'checkout' cart_obj.id %} " class="btn btn-warning" style="margin-top: 80px; width: 100%;">Proceed to Checkout</a>
+		<a href="{% url 'homePage' %} " class="btn btn-warning" style="margin-top: 40px; width: 100%;">Continue Shopping</a>
+		
+	</div>
+</div>
+
+{% endblock %}
+
