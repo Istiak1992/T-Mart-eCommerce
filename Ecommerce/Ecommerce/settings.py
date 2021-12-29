@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-z$gmza-bp^22d6pchvy*86rgj$@o5maxv275t4gi%_@vdl6!no
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1','tmartbd.herokuapp.com/']
 
 
 # Application definition
